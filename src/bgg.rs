@@ -1,4 +1,4 @@
-pub use crate::bgg::collection::Item;
+pub use crate::bgg::collection::Item as CollectionItem;
 use crate::bgg::request::{do_request, RequestResult};
 pub use crate::bgg::thing::Game;
 use crate::{PKG_NAME, PKG_VERSION};
@@ -28,7 +28,7 @@ impl BggClient {
         Self { client }
     }
 
-    pub fn get_collection(&self, user: &str) -> error::Result<Vec<Item>> {
+    pub fn get_collection(&self, user: &str) -> error::Result<Vec<CollectionItem>> {
         let url = format!(
             "https://boardgamegeek.com/xmlapi2/collection?username={user}&own=1&brief=1&subtype=boardgame&excludesubtype=boardgameexpansion"
         );
@@ -71,7 +71,7 @@ impl BggClient {
             let response = self
                 .client
                 .get(format!(
-                    "https://boardgamegeek.com/xmlapi2/thing?id={ids_string}&stats=1`"
+                    "https://boardgamegeek.com/xmlapi2/thing?id={ids_string}&stats=1"
                 ))
                 .send()?;
 
