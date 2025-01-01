@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+
+<!-- https://boardgamegeek.com/xmlapi2/collection?username=unixgeek&own=1&brief=1 -->
+
+<items totalitems="442" termsofuse="https://boardgamegeek.com/xmlapi/termsofuse"
+       pubdate="Tue, 03 Dec 2024 01:09:07 +0000">
+    <item objecttype="thing" objectid="421" subtype="boardgame" collid="18312986">
+        <name sortindex="1">1830: Railways &amp; Robber Barons</name>
+        <status own="1" prevowned="0" fortrade="0" want="0" wanttoplay="0" wanttobuy="0" wishlist="0" preordered="0"
+                lastmodified="2014-10-17 18:45:39"/>
+    </item>
+    <item objecttype="thing" objectid="228660" subtype="boardgame" collid="91932667">
+        <name sortindex="1">Betrayal at Baldur&#039;s Gate</name>
+        <status own="1" prevowned="0" fortrade="0" want="0" wanttoplay="0" wanttobuy="0" wishlist="0" preordered="0"
+                lastmodified="2022-03-07 18:10:59"/>
+    </item>
+    <item objecttype="thing" objectid="39567" subtype="boardgame" collid="24877382">
+        <name sortindex="1">Formula D: The &quot;Shortcut&quot;</name>
+        <status own="1" prevowned="0" fortrade="0" want="0" wanttoplay="0" wanttobuy="0" wishlist="0" preordered="0"
+                lastmodified="2018-03-16 19:52:45"/>
+    </item>
+</items>
