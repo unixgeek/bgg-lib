@@ -95,7 +95,7 @@ impl TryFrom<Item> for Game {
         let name = if let Some(name) = item.names.into_iter().find(|n| n._type == "primary") {
             name.value
         } else {
-            return Err(XmlApiError("No primary name found".to_string()));
+            return Err(XmlApiError("No primary name found".to_owned()));
         };
 
         Ok(Self {

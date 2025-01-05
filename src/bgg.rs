@@ -3,9 +3,7 @@ use crate::bgg::request::{do_request, RequestResult};
 pub use crate::bgg::thing::Game;
 use crate::{PKG_NAME, PKG_VERSION};
 use log::debug;
-use reqwest::blocking::{Client, ClientBuilder};
-use reqwest::header::HeaderMap;
-use reqwest::StatusCode;
+use ureq::{Agent, AgentBuilder, Response};
 
 mod collection;
 pub mod error;
@@ -16,16 +14,15 @@ mod thing;
 const MAX_IDS: usize = 20;
 
 pub struct BggClient {
-    client: Client,
+    agent: Agent,
 }
 
 impl BggClient {
     pub fn new() -> Self {
-        let client = ClientBuilder::default()
-            .user_agent(format!("{} {}", PKG_NAME, PKG_VERSION))
-            .build()
-            .unwrap();
-        Self { client }
+        let agent = AgentBuilder::new()
+            .user_agent(&format!("{} {}", PKG_NAME, PKG_VERSION))
+            .build();
+        Self { agent }
     }
 
     pub fn get_collection(&self, user: &str) -> error::Result<Vec<CollectionItem>> {
@@ -34,14 +31,13 @@ impl BggClient {
         );
 
         do_request(|| {
-            let response = self.client.get(&url).send()?;
-            log_headers(response.headers());
+            let response = self.agent.get(&url).call()?;
+            log_headers(&response);
 
             let status_code = response.status();
             match status_code {
-                StatusCode::OK => {
-                    log_headers(response.headers());
-                    let xml = response.text()?;
+                200 => {
+                    let xml = response.into_string()?;
                     Ok(RequestResult::Done(collection::from_xml(&xml)))
                 }
                 _ => Ok(RequestResult::NotDone(status_code)),
@@ -49,7 +45,7 @@ impl BggClient {
         })?
     }
 
-    pub fn get_games(&mut self, ids: &[usize]) -> error::Result<Vec<Game>> {
+    pub fn get_games(&self, ids: &[usize]) -> error::Result<Vec<Game>> {
         let mut games = Vec::new();
         let total = ids.len();
         let mut count = 0;
@@ -69,30 +65,30 @@ impl BggClient {
         do_request(|| {
             let ids_string = ids_as_strings.join(",");
             let response = self
-                .client
-                .get(format!(
+                .agent
+                .get(&format!(
                     "https://boardgamegeek.com/xmlapi2/thing?id={ids_string}&stats=1"
                 ))
-                .send()?;
+                .call()?;
 
-            log_headers(response.headers());
+            log_headers(&response);
 
             let status_code = response.status();
             match response.status() {
-                StatusCode::OK => Ok(RequestResult::Done(thing::from_xml(&response.text()?)?)),
+                200 => Ok(RequestResult::Done(thing::from_xml(
+                    &response.into_string()?,
+                )?)),
                 _ => Ok(RequestResult::NotDone(status_code)),
             }
         })
     }
 }
 
-fn log_headers(headers: &HeaderMap) {
-    headers.iter().for_each(|header| {
-        debug!(
-            "HEADER FOR RESEARCH {}: {}",
-            header.0,
-            header.1.to_str().unwrap()
-        );
+fn log_headers(response: &Response) {
+    response.headers_names().iter().for_each(|header| {
+        if let Some(value) = response.header(header) {
+            debug!("HEADER FOR RESEARCH {}: {}", header, value);
+        }
     });
 }
 

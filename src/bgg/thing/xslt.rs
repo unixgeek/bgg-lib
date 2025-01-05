@@ -11,7 +11,7 @@ pub(super) fn transform(xml: &str) -> error::Result<String> {
         .parse_string(xml)
         .map_err(|err| XmlError(format!("Error parsing xml with libxml: {}", err)))?;
 
-    match libxslt::parser::parse_bytes(XSLT.to_string().into_bytes(), "") {
+    match libxslt::parser::parse_bytes(XSLT.to_owned().into_bytes(), "") {
         Ok(mut stylesheet) => match stylesheet.transform(&xml_doc, vec![]) {
             Ok(result_doc) => Ok(result_doc.to_string()),
             Err(err) => Err(XmlError(format!(
