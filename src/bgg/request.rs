@@ -1,8 +1,9 @@
 use crate::bgg::error;
-use crate::bgg::error::Error::XmlApiError;
+use crate::bgg::error::Error::{HttpError, XmlApiError};
 use log::debug;
 use std::thread;
 use std::time::Duration;
+use ureq::{Error, Request, Response};
 
 const MAX_RETRIES: u8 = 5;
 const WAIT_SECONDS: u8 = 1;
@@ -46,5 +47,16 @@ where
                 }
             },
         }
+    }
+}
+
+pub(super) fn request_with_all_status_codes(request: Request) -> error::Result<Response> {
+    // ureq treats any response code >= 400 as an Err. I don't like it...
+    match request.call() {
+        Ok(response) => Ok(response),
+        Err(error) => match error {
+            Error::Status(_, response) => Ok(response),
+            error => Err(HttpError(error.to_string())),
+        },
     }
 }

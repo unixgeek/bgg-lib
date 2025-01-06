@@ -7,7 +7,7 @@ pub enum Error {
     #[error("{0}")]
     XmlError(String),
     #[error("{0}")]
-    HttpError(#[from] ureq::Error),
+    HttpError(String),
     #[error("{0}")]
     XmlApiError(String),
     #[error("{0}")]

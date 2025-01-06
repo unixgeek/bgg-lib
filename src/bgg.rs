@@ -1,5 +1,5 @@
 pub use crate::bgg::collection::Item as CollectionItem;
-use crate::bgg::request::{do_request, RequestResult};
+use crate::bgg::request::RequestResult;
 pub use crate::bgg::thing::Game;
 use crate::{PKG_NAME, PKG_VERSION};
 use log::debug;
@@ -30,8 +30,8 @@ impl BggClient {
             "https://boardgamegeek.com/xmlapi2/collection?username={user}&own=1&brief=1&subtype=boardgame&excludesubtype=boardgameexpansion"
         );
 
-        do_request(|| {
-            let response = self.agent.get(&url).call()?;
+        request::do_request(|| {
+            let response = request::request_with_all_status_codes(self.agent.get(&url))?;
             log_headers(&response);
 
             let status_code = response.status();
@@ -62,14 +62,11 @@ impl BggClient {
     fn get_games_from_api(&self, ids: &[usize]) -> error::Result<Vec<Game>> {
         let ids_as_strings = ids.iter().map(|id| id.to_string()).collect::<Vec<String>>();
 
-        do_request(|| {
+        request::do_request(|| {
             let ids_string = ids_as_strings.join(",");
-            let response = self
-                .agent
-                .get(&format!(
-                    "https://boardgamegeek.com/xmlapi2/thing?id={ids_string}&stats=1"
-                ))
-                .call()?;
+            let response = request::request_with_all_status_codes(self.agent.get(&format!(
+                "https://boardgamegeek.com/xmlapi2/thing?id={ids_string}&stats=1"
+            )))?;
 
             log_headers(&response);
 
