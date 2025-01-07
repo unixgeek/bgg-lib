@@ -36,4 +36,15 @@ mod tests {
         let result = transform(&xml).expect("Transforming");
         assert!(!result.contains("suggested_playerage"));
     }
+
+    // #[test]
+    // fn transformed_xml() {
+    //     let (input, output) = ("test/enormity.xml", "test/enormity-transformed.xml");
+    //
+    //     fs::write(
+    //         output,
+    //         transform(&fs::read_to_string(input).expect("Reading file")).expect("Transforming"),
+    //     )
+    //     .expect("Writing file");
+    // }
 }
