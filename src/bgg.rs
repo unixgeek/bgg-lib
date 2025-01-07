@@ -81,6 +81,7 @@ impl BggClient {
     }
 }
 
+#[cfg(feature = "moar-debug")]
 fn log_headers(response: &Response) {
     response.headers_names().iter().for_each(|header| {
         if let Some(value) = response.header(header) {
@@ -88,6 +89,8 @@ fn log_headers(response: &Response) {
         }
     });
 }
+#[cfg(not(feature = "moar-debug"))]
+fn log_headers(_: &Response) {}
 
 impl Default for BggClient {
     fn default() -> Self {

@@ -3,7 +3,9 @@ use crate::bgg::error::Error::{InvalidUserError, XmlApiError, XmlError};
 use serde::{Deserialize, Serialize};
 
 pub(super) fn from_xml(xml: &str) -> error::Result<Vec<Item>> {
-    // debug!("XML: {}", xml);
+    #[cfg(feature = "moar-debug")]
+    log::debug!("Collection XML: {}", xml);
+
     if xml.contains("<errors>") {
         let errors = serde_xml::<ErrorResponses>(xml)?.inner;
 

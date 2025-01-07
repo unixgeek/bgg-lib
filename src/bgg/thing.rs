@@ -8,7 +8,9 @@ mod thing2;
 mod xslt;
 
 pub(super) fn from_xml(xml: &str) -> error::Result<Vec<Game>> {
-    // debug!("XML: {}", xml);
+    #[cfg(feature = "moar-debug")]
+    log::debug!("Things XML: {}", xml);
+
     let items: Vec<Item> = serde_xml_rs::from_str::<Items>(&xslt::transform(xml)?)
         .map_err(|error| XmlError(format!("Error deserializing xml: {}", error)))?
         .into_inner();

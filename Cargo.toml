@@ -13,3 +13,7 @@ serde = { version = "1.0.217", features = ["derive"] }
 serde-xml-rs = "0.6.0"
 thiserror = "2.0.9"
 
+[features]
+default = []
+# For more debug to help understand the bgg xmlapi.
+moar-debug = []
