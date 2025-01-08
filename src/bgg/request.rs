@@ -6,7 +6,8 @@ use std::time::Duration;
 use ureq::{Error, Request, Response};
 
 const MAX_RETRIES: u8 = 5;
-const WAIT_SECONDS: u8 = 1;
+// Based on observation, 1 second is not enough. Ends up being wait 1, then wait 2, so a total of 3 seconds.
+const WAIT_SECONDS: u8 = 2;
 const WAIT_MULTIPLIER: u8 = 2;
 
 pub(super) enum RequestResult<T> {
