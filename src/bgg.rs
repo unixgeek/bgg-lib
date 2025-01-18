@@ -25,9 +25,19 @@ impl BggClient {
         Self { agent }
     }
 
-    pub fn get_collection(&self, user: &str) -> error::Result<Vec<CollectionItem>> {
+    pub fn get_collection(
+        &self,
+        user: &str,
+        include_expansions: bool,
+    ) -> error::Result<Vec<CollectionItem>> {
+        let exclude_param = if include_expansions {
+            ""
+        } else {
+            "&excludesubtype=boardgameexpansion"
+        };
+
         let url = format!(
-            "https://boardgamegeek.com/xmlapi2/collection?username={user}&own=1&brief=1&subtype=boardgame&excludesubtype=boardgameexpansion"
+            "https://boardgamegeek.com/xmlapi2/collection?username={user}&own=1&brief=1&subtype=boardgame{exclude_param}"
         );
 
         request::do_request(|| {
