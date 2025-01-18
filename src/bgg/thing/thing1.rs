@@ -30,6 +30,8 @@ impl Items {
 #[derive(Deserialize)]
 pub(super) struct Item {
     pub(super) id: usize,
+    #[serde(rename = "type")]
+    pub(super) thing_type: String,
     #[serde(rename = "name")]
     pub(super) names: Vec<Name>,
     #[serde(rename = "minplayers")]
@@ -145,6 +147,7 @@ mod tests {
 
         let game = games.get(0).unwrap();
         assert_eq!(game.id, 246900);
+        assert_eq!(game.thing_type, "boardgame");
         assert_eq!(game.names.len(), 9);
         let name = game.names.iter().find(|n| n._type == "primary").unwrap();
         assert_eq!(name.value, "Eclipse: Second Dawn for the Galaxy");

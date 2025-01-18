@@ -14,6 +14,7 @@ use std::cmp::Ordering;
 #[derive(Clone, Deserialize, Serialize)]
 pub struct Game {
     pub id: usize,
+    pub is_expansion: bool,
     pub name: String,
     pub min_player_count: usize,
     pub max_player_count: usize,
@@ -100,6 +101,7 @@ impl TryFrom<Item> for Game {
 
         Ok(Self {
             id: item.id,
+            is_expansion: item.thing_type == "boardgameexpansion",
             name,
             min_player_count: item.min_players.value,
             max_player_count: item.max_players.value,
@@ -128,10 +130,23 @@ mod tests {
 
         let game = Game::try_from(items.into_inner().pop().unwrap()).unwrap();
         assert_eq!(game.id, 246900);
+        assert!(!game.is_expansion);
         assert_eq!(game.name, "Eclipse: Second Dawn for the Galaxy");
         assert_eq!(game.min_player_count, 2);
         assert_eq!(game.max_player_count, 6);
         assert_eq!(game.best_player_counts[0], 4);
         assert_eq!(game.rating, 8.44283)
+    }
+
+    #[test]
+    fn test_try_from_expansion() {
+        let items: Items = serde_xml_rs::from_str(
+            &fs::read_to_string("test/fire-and-ice-transformed.xml").expect("Reading file"),
+        )
+        .expect("Parsing XML");
+
+        let game = Game::try_from(items.into_inner().pop().unwrap()).unwrap();
+        assert_eq!(game.id, 161317);
+        assert!(game.is_expansion);
     }
 }
