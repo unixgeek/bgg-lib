@@ -1,7 +1,6 @@
 pub use crate::bgg::collection::Item as CollectionItem;
 use crate::bgg::request::RequestResult;
 pub use crate::bgg::thing::Game;
-use crate::{PKG_NAME, PKG_VERSION};
 use log::debug;
 use ureq::{Agent, AgentBuilder, Response};
 
@@ -15,14 +14,27 @@ const MAX_IDS: usize = 20;
 
 pub struct BggClient {
     agent: Agent,
+    url: String,
 }
 
 impl BggClient {
-    pub fn new() -> Self {
+    pub fn from_url(url: &str) -> Self {
         let agent = AgentBuilder::new()
-            .user_agent(&format!("{} {}", PKG_NAME, PKG_VERSION))
+            .user_agent(&format!(
+                "{} {} {}",
+                env!("CARGO_PKG_NAME"),
+                env!("CARGO_PKG_VERSION"),
+                env!("CARGO_PKG_REPOSITORY")
+            ))
             .build();
-        Self { agent }
+        Self {
+            agent,
+            url: url.to_owned(),
+        }
+    }
+
+    pub fn new() -> Self {
+        Self::from_url("https://boardgamegeek.com")
     }
 
     pub fn get_collection(
@@ -37,7 +49,8 @@ impl BggClient {
         };
 
         let url = format!(
-            "https://boardgamegeek.com/xmlapi2/collection?username={user}&own=1&brief=1&subtype=boardgame{exclude_param}"
+            "{base}/xmlapi2/collection?username={user}&own=1&brief=1&subtype=boardgame{exclude_param}",
+            base = self.url
         );
 
         request::do_request(|| {
@@ -75,7 +88,8 @@ impl BggClient {
         request::do_request(|| {
             let ids_string = ids_as_strings.join(",");
             let response = request::request_with_all_status_codes(self.agent.get(&format!(
-                "https://boardgamegeek.com/xmlapi2/thing?id={ids_string}&stats=1"
+                "{base}/xmlapi2/thing?id={ids_string}&stats=1",
+                base = self.url
             )))?;
 
             log_headers(&response);
