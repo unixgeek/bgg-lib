@@ -39,11 +39,7 @@ mod tests {
         assert_eq!(game.min_player_count, 1);
         assert_eq!(game.max_player_count, 4);
         assert_eq!(game.voter_count, 0);
-        assert_eq!(game.best_player_counts.len(), 4);
-        assert_eq!(game.best_player_counts[0], 1);
-        assert_eq!(game.best_player_counts[1], 2);
-        assert_eq!(game.best_player_counts[2], 3);
-        assert_eq!(game.best_player_counts[3], 4);
+        assert_eq!(game.best_player_counts.len(), 0);
         assert_eq!(game.rating, 7.894);
     }
 }

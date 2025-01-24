@@ -9,7 +9,6 @@ use crate::bgg;
 use crate::bgg::error::Error::XmlApiError;
 use crate::bgg::thing::thing1::{Category, Item, Results};
 use serde::{Deserialize, Serialize};
-use std::cmp::Ordering;
 
 #[derive(Clone, Deserialize, Serialize)]
 pub struct Game {
@@ -38,25 +37,38 @@ impl TryFrom<Item> for Game {
             .filter(|poll_results| !poll_results.player_count.contains("+"))
             .collect();
 
-        let mut player_counts = Vec::new();
+        /*
+            Looks like this on the website.
+            1   0.5%   (1)  5.2%  (11) 94.3% (198)  210
+            2   6.1%  (16) 63.4% (166) 30.5%  (80)  262
+            3  20.5%  (55) 67.2% (180) 12.3%  (33)  268
+            4  71.7% (205) 26.2%  (75)  2.1%   (6)  286
+            5  25.4%  (63) 61.7% (153) 12.9%  (32)  248
+            6  58.4% (149) 31.4%  (80) 10.2%  (26)  255
+            6+  2.5%   (4)  5.5%   (9) 92.0% (150)  163
+            Total voters 336
+        */
+        let mut best_player_counts = Vec::new();
         for poll_results in best_player_results {
             if let Ok(player_count) = poll_results.player_count.parse::<usize>() {
+                // Get the total vote count.
+                let total_count = poll_results
+                    .results_by_category
+                    .iter()
+                    .fold(0, |acc, c| acc + c.vote_count);
+
                 // Get the vote count for the "Best" category and ignore the other categories.
                 let best_count = poll_results
                     .results_by_category
                     .into_iter()
                     .find(|c| c.value == Category::Best)
-                    .map(|c| c.vote_count);
+                    .map_or(0, |c| c.vote_count);
 
-                // Add to the list.
-                if let Some(best_count) = best_count {
-                    player_counts.push((player_count, best_count));
-                    // There should always be vote count?
-                } else {
-                    return Err(XmlApiError(format!(
-                        "No best count for player count: {}",
-                        poll_results.player_count
-                    )));
+                let percentage = (best_count as f64) / (total_count as f64) * 100.0;
+
+                // Based on observation. Not sure if this is the actual algorithm.
+                if percentage > 50.0 {
+                    best_player_counts.push(player_count);
                 }
             // There may be other variants of numplayers strings we are not aware of.
             } else {
@@ -64,32 +76,6 @@ impl TryFrom<Item> for Game {
                     "Could not parse player count: {}",
                     poll_results.player_count
                 )));
-            }
-        }
-
-        // Retain max values for the counts. There are cases where the game is best at more than
-        // one player count.
-        // .max_by() returns last element if two values are equal. We want them all.
-        // let best_player_counts = player_counts
-        //     .into_iter()
-        //     .max_by(|a, b| a.1.cmp(&b.1))
-        //     .map(|(player_count, _best_count)| player_count)
-        //     .into_iter()
-        //     .collect();
-
-        let mut best_player_counts = Vec::new();
-        for (player_count, best_count) in player_counts {
-            if let Some((_, max_best_count)) = best_player_counts.last() {
-                match best_count.cmp(max_best_count) {
-                    Ordering::Equal => best_player_counts.push((player_count, best_count)),
-                    Ordering::Greater => {
-                        best_player_counts.clear();
-                        best_player_counts.push((player_count, best_count));
-                    }
-                    _ => {}
-                }
-            } else {
-                best_player_counts.push((player_count, best_count));
             }
         }
 
@@ -106,10 +92,7 @@ impl TryFrom<Item> for Game {
             min_player_count: item.min_players.value,
             max_player_count: item.max_players.value,
             voter_count,
-            best_player_counts: best_player_counts
-                .into_iter()
-                .map(|(player_count, _)| player_count)
-                .collect(),
+            best_player_counts,
             rating: item.statistics.ratings.average.value,
         })
     }
@@ -134,8 +117,10 @@ mod tests {
         assert_eq!(game.name, "Eclipse: Second Dawn for the Galaxy");
         assert_eq!(game.min_player_count, 2);
         assert_eq!(game.max_player_count, 6);
+        assert_eq!(game.best_player_counts.len(), 2);
         assert_eq!(game.best_player_counts[0], 4);
-        assert_eq!(game.rating, 8.44283)
+        assert_eq!(game.best_player_counts[1], 6);
+        assert_eq!(game.rating, 8.43349)
     }
 
     #[test]

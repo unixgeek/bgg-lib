@@ -155,7 +155,7 @@ mod tests {
         assert_eq!(game.max_players.value, 6);
 
         let poll = &game.poll;
-        assert_eq!(poll.voter_count, 328);
+        assert_eq!(poll.voter_count, 336);
         assert_eq!(poll.results.len(), 7);
         assert_eq!(poll.results[0].player_count, "1");
         assert_eq!(poll.results[0].results_by_category.len(), 3);
@@ -172,6 +172,6 @@ mod tests {
         );
         assert_eq!(poll.results[2].results_by_category[2].vote_count, 33);
 
-        assert_eq!(game.statistics.ratings.average.value, 8.44283);
+        assert_eq!(game.statistics.ratings.average.value, 8.43349);
     }
 }

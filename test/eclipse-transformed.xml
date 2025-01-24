@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <items termsofuse="https://boardgamegeek.com/xmlapi/termsofuse"><item type="boardgame" id="246900">
          <thumbnail>https://cf.geekdo-images.com/Oh3kHw6lweg6ru71Q16h2Q__thumb/img/e9XZdQe1ZcPpaq4Gy31OoWBB_V0=/fit-in/200x150/filters:strip_icc()/pic5235277.jpg</thumbnail>
       <image>https://cf.geekdo-images.com/Oh3kHw6lweg6ru71Q16h2Q__original/img/yW7d4RNfU1ndISCaPlfGYUyxnRU=/0x0/filters:format(jpeg)/pic5235277.jpg</image>
@@ -8,66 +8,66 @@
 						                               				
 				<name type="alternate" sortindex="1" value="Eclipse: Das zweite galaktische Zeitalter"/>
 			    				
-				<name type="alternate" sortindex="1" value="Eclipse: Drugi &#x15A;wit Galaktyki"/>
+				<name type="alternate" sortindex="1" value="Eclipse: Drugi Świt Galaktyki"/>
 			    				
 				<name type="alternate" sortindex="1" value="Eclipse: El Segundo Amanecer de la Galaxia"/>
 			    				
-				<name type="alternate" sortindex="1" value="Eclipse: o Segundo Despertar da Gal&#xE1;xia"/>
+				<name type="alternate" sortindex="1" value="Eclipse: o Segundo Despertar da Galáxia"/>
 			    				
-				<name type="alternate" sortindex="1" value="Eclipse. &#x412;&#x442;&#x43E;&#x440;&#x43E;&#x439; &#x440;&#x430;&#x441;&#x441;&#x432;&#x435;&#x442; &#x433;&#x430;&#x43B;&#x430;&#x43A;&#x442;&#x438;&#x43A;&#x438;"/>
+				<name type="alternate" sortindex="1" value="Eclipse. Второй рассвет галактики"/>
 			    				
-				<name type="alternate" sortindex="1" value="&#x30A8;&#x30AF;&#x30EA;&#x30D7;&#x30B9;&#x301C;&#x65B0;&#x305F;&#x306A;&#x308B;&#x9280;&#x6CB3;&#x306E;&#x591C;&#x660E;&#x3051;&#x301C;"/>
+				<name type="alternate" sortindex="1" value="エクリプス〜新たなる銀河の夜明け〜"/>
 			    				
-				<name type="alternate" sortindex="1" value="&#x661F;&#x8680;&#xFF1A;&#x9ECE;&#x660E;&#x91CD;&#x73B0;"/>
+				<name type="alternate" sortindex="1" value="星蚀：黎明重现"/>
 			    				
-				<name type="alternate" sortindex="1" value="&#xC774;&#xD074;&#xB9BD;&#xC2A4;: &#xB450; &#xBC88;&#xC9F8; &#xC5EC;&#xBA85;"/>
+				<name type="alternate" sortindex="1" value="이클립스: 두 번째 여명"/>
 			
 						               													<description>A game of Eclipse places you in control of a vast interstellar civilization, competing for success with its rivals. You explore new star systems, research technologies, and build spaceships with which to wage war. There are many potential paths to victory, so you need to plan your strategy according to the strengths and weaknesses of your species, while paying attention to the other civilizations' endeavors.&amp;#10;&amp;#10;Eclipse: Second Dawn for the Galaxy is a revised and upgraded version of the Eclipse base game that debuted in 2011 that features:&amp;#10;&amp;#10;&amp;#10;    New graphic design, while maintaining the acclaimed symbology of the first edition &amp;#10;    A full line of Ship Pack 1 miniatures&amp;#10;    New miniatures for ancients, GCDS, orbitals, and more&amp;#10;    Custom plastic inlays&amp;#10;    Custom combat dice&amp;#10;    Fine-tuned gameplay&amp;#10;&amp;#10;&amp;#10;</description>
 										      	               				<yearpublished value="2020"/>
 						               				<minplayers value="2"/>
 						               				<maxplayers value="6"/>
-						      			<poll name="suggested_numplayers" title="User Suggested Number of Players" totalvotes="328">
+						      			<poll name="suggested_numplayers" title="User Suggested Number of Players" totalvotes="336">
 			
 		<results numplayers="1">		
 					<result value="Best" numvotes="1"/>
-					<result value="Recommended" numvotes="10"/>
-					<result value="Not Recommended" numvotes="194"/>
+					<result value="Recommended" numvotes="11"/>
+					<result value="Not Recommended" numvotes="198"/>
 				</results>					
 			
 		<results numplayers="2">		
 					<result value="Best" numvotes="16"/>
-					<result value="Recommended" numvotes="163"/>
-					<result value="Not Recommended" numvotes="78"/>
+					<result value="Recommended" numvotes="166"/>
+					<result value="Not Recommended" numvotes="80"/>
 				</results>					
 			
 		<results numplayers="3">		
-					<result value="Best" numvotes="54"/>
-					<result value="Recommended" numvotes="174"/>
+					<result value="Best" numvotes="55"/>
+					<result value="Recommended" numvotes="180"/>
 					<result value="Not Recommended" numvotes="33"/>
 				</results>					
 			
 		<results numplayers="4">		
-					<result value="Best" numvotes="197"/>
+					<result value="Best" numvotes="205"/>
 					<result value="Recommended" numvotes="75"/>
 					<result value="Not Recommended" numvotes="6"/>
 				</results>					
 			
 		<results numplayers="5">		
-					<result value="Best" numvotes="60"/>
-					<result value="Recommended" numvotes="151"/>
-					<result value="Not Recommended" numvotes="31"/>
+					<result value="Best" numvotes="63"/>
+					<result value="Recommended" numvotes="153"/>
+					<result value="Not Recommended" numvotes="32"/>
 				</results>					
 			
 		<results numplayers="6">		
-					<result value="Best" numvotes="147"/>
-					<result value="Recommended" numvotes="77"/>
-					<result value="Not Recommended" numvotes="25"/>
+					<result value="Best" numvotes="149"/>
+					<result value="Recommended" numvotes="80"/>
+					<result value="Not Recommended" numvotes="26"/>
 				</results>					
 			
 		<results numplayers="6+">		
 					<result value="Best" numvotes="4"/>
-					<result value="Recommended" numvotes="8"/>
-					<result value="Not Recommended" numvotes="146"/>
+					<result value="Recommended" numvotes="9"/>
+					<result value="Not Recommended" numvotes="150"/>
 				</results>					
 	</poll>
  			               				<playingtime value="200"/>
@@ -285,7 +285,7 @@
 
 			
 		
-					<link type="boardgameexpansion" id="381603" value="Eclipse: Second Dawn for the Galaxy &#x2013; Expanded Galaxy"/>
+					<link type="boardgameexpansion" id="381603" value="Eclipse: Second Dawn for the Galaxy – Expanded Galaxy"/>
 		
 									
 				
@@ -293,7 +293,7 @@
 
 			
 		
-					<link type="boardgameexpansion" id="305954" value="Eclipse: Second Dawn for the Galaxy &#x2013; Galactic Events"/>
+					<link type="boardgameexpansion" id="305954" value="Eclipse: Second Dawn for the Galaxy – Galactic Events"/>
 		
 									
 				
@@ -301,7 +301,7 @@
 
 			
 		
-					<link type="boardgameexpansion" id="375216" value="Eclipse: Second Dawn for the Galaxy &#x2013; Gamemat"/>
+					<link type="boardgameexpansion" id="375216" value="Eclipse: Second Dawn for the Galaxy – Gamemat"/>
 		
 									
 				
@@ -309,7 +309,7 @@
 
 			
 		
-					<link type="boardgameexpansion" id="305950" value="Eclipse: Second Dawn for the Galaxy &#x2013; Minor Species"/>
+					<link type="boardgameexpansion" id="305950" value="Eclipse: Second Dawn for the Galaxy – Minor Species"/>
 		
 									
 				
@@ -317,7 +317,7 @@
 
 			
 		
-					<link type="boardgameexpansion" id="368378" value="Eclipse: Second Dawn for the Galaxy &#x2013; Outcasts"/>
+					<link type="boardgameexpansion" id="368378" value="Eclipse: Second Dawn for the Galaxy – Outcasts"/>
 		
 									
 				
@@ -325,7 +325,7 @@
 
 			
 		
-					<link type="boardgameexpansion" id="366202" value="Eclipse: Second Dawn for the Galaxy &#x2013; Remnants of Worlds Afar"/>
+					<link type="boardgameexpansion" id="366202" value="Eclipse: Second Dawn for the Galaxy – Remnants of Worlds Afar"/>
 		
 									
 				
@@ -333,7 +333,7 @@
 
 			
 		
-					<link type="boardgameexpansion" id="305955" value="Eclipse: Second Dawn for the Galaxy &#x2013; Rift Cannon"/>
+					<link type="boardgameexpansion" id="305955" value="Eclipse: Second Dawn for the Galaxy – Rift Cannon"/>
 		
 									
 				
@@ -341,7 +341,7 @@
 
 			
 		
-					<link type="boardgameexpansion" id="368377" value="Eclipse: Second Dawn for the Galaxy &#x2013; Seekers"/>
+					<link type="boardgameexpansion" id="368377" value="Eclipse: Second Dawn for the Galaxy – Seekers"/>
 		
 									
 				
@@ -349,7 +349,7 @@
 
 			
 		
-					<link type="boardgameexpansion" id="294546" value="Eclipse: Second Dawn for the Galaxy &#x2013; Supernova"/>
+					<link type="boardgameexpansion" id="294546" value="Eclipse: Second Dawn for the Galaxy – Supernova"/>
 		
 									
 				
@@ -357,7 +357,7 @@
 
 			
 		
-					<link type="boardgameexpansion" id="350921" value="Eclipse: Second Dawn for the Galaxy &#x2013; Turn Order Variant"/>
+					<link type="boardgameexpansion" id="350921" value="Eclipse: Second Dawn for the Galaxy – Turn Order Variant"/>
 		
 									
 				
@@ -365,7 +365,7 @@
 
 			
 		
-					<link type="boardgameexpansion" id="381605" value="Eclipse: Second Dawn for the Galaxy &#x2013; Warped Universe"/>
+					<link type="boardgameexpansion" id="381605" value="Eclipse: Second Dawn for the Galaxy – Warped Universe"/>
 		
 									
 				
@@ -373,7 +373,7 @@
 
 			
 		
-					<link type="boardgameexpansion" id="303298" value="Eclipse: Second Dawn for the Galaxy &#x2013; Worlds Afar Collection"/>
+					<link type="boardgameexpansion" id="303298" value="Eclipse: Second Dawn for the Galaxy – Worlds Afar Collection"/>
 		
 									
 			
@@ -393,7 +393,7 @@
 
 			
 		
-					<link type="boardgameaccessory" id="305956" value="Eclipse: Second Dawn for the Galaxy &#x2013; Extra Dice"/>
+					<link type="boardgameaccessory" id="305956" value="Eclipse: Second Dawn for the Galaxy – Extra Dice"/>
 		
 									
 				
@@ -401,7 +401,7 @@
 
 			
 		
-					<link type="boardgameaccessory" id="376908" value="Eclipse: Second Dawn for the Galaxy &#x2013; Reference Sheets"/>
+					<link type="boardgameaccessory" id="376908" value="Eclipse: Second Dawn for the Galaxy – Reference Sheets"/>
 		
 									
 				
@@ -409,7 +409,7 @@
 
 			
 		
-					<link type="boardgameaccessory" id="376909" value="Eclipse: Second Dawn for the Galaxy &#x2013; Scoring Pad"/>
+					<link type="boardgameaccessory" id="376909" value="Eclipse: Second Dawn for the Galaxy – Scoring Pad"/>
 		
 									
 				
@@ -417,7 +417,7 @@
 
 			
 		
-					<link type="boardgameaccessory" id="305957" value="Eclipse: Second Dawn for the Galaxy &#x2013; Ship Stands"/>
+					<link type="boardgameaccessory" id="305957" value="Eclipse: Second Dawn for the Galaxy – Ship Stands"/>
 		
 									
 				
@@ -425,7 +425,7 @@
 
 			
 		
-					<link type="boardgameaccessory" id="305952" value="Eclipse: Second Dawn for the Galaxy &#x2013; Terran Ships"/>
+					<link type="boardgameaccessory" id="305952" value="Eclipse: Second Dawn for the Galaxy – Terran Ships"/>
 		
 									
 			
@@ -487,7 +487,7 @@
 
 			
 		
-					<link type="boardgameartist" id="32143" value="Sampo Siki&#xF6;"/>
+					<link type="boardgameartist" id="32143" value="Sampo Sikiö"/>
 		
 									
 			
@@ -592,24 +592,24 @@
 	
    		<statistics page="1">
 								<ratings>
-			<usersrated value="14567"/>
-			<average value="8.44283"/>
-			<bayesaverage value="7.97788"/>
+			<usersrated value="14876"/>
+			<average value="8.43349"/>
+			<bayesaverage value="7.97567"/>
 
 			<ranks>
-															<rank type="subtype" id="1" name="boardgame" friendlyname="Board Game Rank" value="18" bayesaverage="7.97788"/>
-																				<rank type="family" id="5497" name="strategygames" friendlyname="Strategy Game Rank" value="15" bayesaverage="8.0492"/>
+															<rank type="subtype" id="1" name="boardgame" friendlyname="Board Game Rank" value="18" bayesaverage="7.97567"/>
+																				<rank type="family" id="5497" name="strategygames" friendlyname="Strategy Game Rank" value="15" bayesaverage="8.04405"/>
 												</ranks>
 
-			<stddev value="1.37355"/>
+			<stddev value="1.37706"/>
 			<median value="0"/>
-			<owned value="19094"/>
-			<trading value="113"/>
-			<wanting value="948"/>
-			<wishing value="8114"/>
-			<numcomments value="2044"/>
-			<numweights value="508"/>
-			<averageweight value="3.6516"/>
+			<owned value="19478"/>
+			<trading value="103"/>
+			<wanting value="952"/>
+			<wishing value="8240"/>
+			<numcomments value="2083"/>
+			<numweights value="522"/>
+			<averageweight value="3.6513"/>
 			</ratings>
 								</statistics>
      
