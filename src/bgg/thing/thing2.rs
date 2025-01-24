@@ -10,7 +10,7 @@ use crate::bgg::error::Error::XmlApiError;
 use crate::bgg::thing::thing1::{Category, Item, Results};
 use serde::{Deserialize, Serialize};
 
-#[derive(Clone, Deserialize, Serialize)]
+#[derive(Clone, Deserialize, Serialize, Debug)]
 pub struct Game {
     pub id: u32,
     pub is_expansion: bool,

@@ -7,7 +7,7 @@ use ureq::{Agent, AgentBuilder, Response};
 mod collection;
 pub mod error;
 mod request;
-mod thing;
+pub(crate) mod thing;
 
 // bgg says max is 20.
 const MAX_IDS: usize = 20;

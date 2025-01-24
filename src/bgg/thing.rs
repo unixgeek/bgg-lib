@@ -7,7 +7,7 @@ mod thing1;
 mod thing2;
 mod xslt;
 
-pub(super) fn from_xml(xml: &str) -> error::Result<Vec<Game>> {
+pub(crate) fn from_xml(xml: &str) -> error::Result<Vec<Game>> {
     #[cfg(feature = "moar-debug")]
     log::debug!("Things XML: {}", xml);
 
