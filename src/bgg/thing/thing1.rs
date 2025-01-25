@@ -74,7 +74,7 @@ pub(super) struct Poll {
 pub(super) struct Results {
     #[serde(rename = "numplayers")]
     pub(super) player_count: String,
-    #[serde(rename = "result")]
+    #[serde(rename = "result", default)]
     pub(super) results_by_category: Vec<Result>,
 }
 
@@ -173,5 +173,20 @@ mod tests {
         assert_eq!(poll.results[2].results_by_category[2].vote_count, 33);
 
         assert_eq!(game.statistics.ratings.average.value, 8.43349);
+    }
+
+    #[test]
+    fn test_missing_results() {
+        let items: Items = serde_xml_rs::from_str(
+            &fs::read_to_string("test/tower-capture-transformed.xml").expect("Reading file"),
+        )
+        .expect("Parsing XML");
+
+        let game = items.into_inner().pop().unwrap();
+
+        assert_eq!(game.poll.results.len(), 1);
+        let results = game.poll.results.get(0).unwrap();
+        assert_eq!(results.player_count, "2+");
+        assert!(results.results_by_category.is_empty())
     }
 }

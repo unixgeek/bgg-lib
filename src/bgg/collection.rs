@@ -20,7 +20,7 @@ pub(super) fn from_xml(xml: &str) -> error::Result<Vec<Item>> {
             Err(XmlApiError(message))
         }
     } else {
-        Ok(serde_xml::<Items>(xml)?.inner.unwrap_or_default())
+        Ok(serde_xml::<Items>(xml)?.inner)
     }
 }
 
@@ -38,8 +38,8 @@ pub struct Item {
 
 #[derive(Deserialize)]
 struct Items {
-    #[serde(rename = "item")]
-    inner: Option<Vec<Item>>,
+    #[serde(rename = "item", default)]
+    inner: Vec<Item>,
 }
 
 #[derive(Deserialize)]
@@ -66,7 +66,7 @@ mod tests {
             serde_xml_rs::from_str(&fs::read_to_string("test/unixgeek.xml").expect("Reading file"))
                 .expect("Parsing XML");
 
-        let items = items.inner.unwrap();
+        let items = items.inner;
 
         assert_eq!(items.len(), 3);
 
@@ -87,7 +87,7 @@ mod tests {
         )
         .expect("Parsing XML");
 
-        assert_eq!(items.inner.unwrap_or_default().len(), 0);
+        assert_eq!(items.inner.len(), 0);
     }
 
     #[test]
