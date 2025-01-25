@@ -1,5 +1,6 @@
-use crate::bgg::error;
-use crate::bgg::error::Error::{HttpError, XmlApiError};
+//! A DRY way of calling the XML API with retry logic.
+use crate::error;
+use crate::error::Error::{HttpError, XmlApiError};
 use log::debug;
 use std::thread;
 use std::time::Duration;

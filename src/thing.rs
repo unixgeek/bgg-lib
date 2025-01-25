@@ -1,6 +1,11 @@
-use crate::bgg::error;
-use crate::bgg::error::Error::XmlError;
-use crate::bgg::thing::thing1::{Item, Items};
+//! The response from the `/thing` endpoint.
+//!
+//! The XML API documentation states the result of the endpoint are "thing items", hence the naming
+//! used in this module and submodules. For example, the response XML has `items` as the root with
+//! `item` children elements.
+use crate::error;
+use crate::error::Error::XmlError;
+use crate::thing::thing1::{Item, Items};
 pub use thing2::Game;
 
 mod thing1;
@@ -24,7 +29,7 @@ pub(super) fn from_xml(xml: &str) -> error::Result<Vec<Game>> {
 
 #[cfg(test)]
 mod tests {
-    use crate::bgg::thing::from_xml;
+    use crate::thing::from_xml;
     use std::fs;
 
     #[test]

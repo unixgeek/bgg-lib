@@ -1,31 +1,31 @@
-//! # Thing2
+//! Final representation of the response from the `/thing` endpoint.
 //!
-//! This module maps the resulting structure from the `thing1` module to an easier to use structure.
-//!
-//! The api documentation states the result of the endpoint are "thing items", so maybe this should
-//! be called `Thing` or `Item`, but we only care about board games, so we use `Game`.
-
-use crate::bgg;
-use crate::bgg::error::Error::XmlApiError;
-use crate::bgg::thing::thing1::{Category, Item, Results};
+//! By using serde, [Item] in `thing1` is mostly a 1:1 representation of the XML, but that is
+//! awkward to use. This module maps [Item] to an easier to use structure: [Game]. The XML API
+//! documentation states the result of the endpoint are "thing items", so maybe this should be
+//! called `Thing` or `Item`, but we only care about board games, so we use `Game`.
+use crate::error;
+use crate::error::Error::XmlApiError;
+use crate::thing::thing1::{Category, Item, Results};
 use serde::{Deserialize, Serialize};
 
+/// Represents a game.
 #[derive(Clone, Deserialize, Serialize)]
 pub struct Game {
-    pub id: usize,
+    pub id: u32,
     pub is_expansion: bool,
     pub name: String,
-    pub min_player_count: usize,
-    pub max_player_count: usize,
-    pub voter_count: usize,
-    pub best_player_counts: Vec<usize>,
+    pub min_player_count: u16,
+    pub max_player_count: u16,
+    pub voter_count: u16,
+    pub best_player_counts: Vec<u16>,
     pub rating: f64,
 }
 
 impl TryFrom<Item> for Game {
-    type Error = bgg::error::Error;
+    type Error = error::Error;
 
-    fn try_from(item: Item) -> Result<Self, bgg::error::Error> {
+    fn try_from(item: Item) -> Result<Self, error::Error> {
         let voter_count = item.poll.voter_count;
 
         let best_player_results: Vec<Results> = item
@@ -50,7 +50,7 @@ impl TryFrom<Item> for Game {
         */
         let mut best_player_counts = Vec::new();
         for poll_results in best_player_results {
-            if let Ok(player_count) = poll_results.player_count.parse::<usize>() {
+            if let Ok(player_count) = poll_results.player_count.parse::<u16>() {
                 // Get the total vote count.
                 let total_count = poll_results
                     .results_by_category
@@ -100,8 +100,8 @@ impl TryFrom<Item> for Game {
 
 #[cfg(test)]
 mod tests {
-    use crate::bgg::thing::thing1::Items;
-    use crate::bgg::thing::thing2::Game;
+    use crate::thing::thing1::Items;
+    use crate::thing::thing2::Game;
     use std::fs;
 
     #[test]

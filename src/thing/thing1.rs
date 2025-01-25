@@ -1,15 +1,4 @@
-//! # Thing1
-//!
-//! This module parses the response from the `/collection` endpoint.
-//!
-//! The api documentation states the result of the endpoint are "thing items", hence the naming
-//! used here. For example, the response xml has `items` as the root with `item` children elements.
-//!
-//! The xml is difficult to parse with serde and the resulting data representation is clumsy and
-//! confusing, which is why the `thing2` module exists: to simplify the structure.
-//!
-//! We might need to consider using xpath or DOM parsing in the future.
-
+//! An intermediate representation of the response from the `/thing` endpoint, using serde.
 use serde::de::Error;
 use serde::{Deserialize, Deserializer};
 use std::result;
@@ -29,7 +18,7 @@ impl Items {
 
 #[derive(Deserialize)]
 pub(super) struct Item {
-    pub(super) id: usize,
+    pub(super) id: u32,
     #[serde(rename = "type")]
     pub(super) thing_type: String,
     #[serde(rename = "name")]
@@ -53,7 +42,7 @@ pub(super) struct Name {
 // example: <minplayers value="2"/>
 #[derive(Deserialize)]
 pub(super) struct ElementWithIntValueAttribute {
-    pub(super) value: usize,
+    pub(super) value: u16,
 }
 
 #[derive(Deserialize)]
@@ -66,7 +55,7 @@ pub(super) struct ElementWithFloatValueAttribute {
 pub(super) struct Poll {
     // This is "total voters" on the website.
     #[serde(rename = "totalvotes")]
-    pub(super) voter_count: usize,
+    pub(super) voter_count: u16,
     pub(super) results: Vec<Results>,
 }
 
@@ -83,7 +72,7 @@ pub(super) struct Result {
     #[serde(deserialize_with = "category_from_str")]
     pub(super) value: Category,
     #[serde(rename = "numvotes")]
-    pub(super) vote_count: usize,
+    pub(super) vote_count: u16,
 }
 
 #[derive(Deserialize, PartialEq, Debug)]
@@ -132,7 +121,7 @@ pub(super) struct Ratings {
 
 #[cfg(test)]
 mod tests {
-    use crate::bgg::thing::thing1::{Category, Items};
+    use crate::thing::thing1::{Category, Items};
     use std::fs;
 
     #[test]

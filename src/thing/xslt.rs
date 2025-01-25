@@ -1,10 +1,13 @@
-use crate::bgg::error;
-use crate::bgg::error::Error::XmlError;
+//! An XSLT transformer for the XML received from the `/thing` endpoint.
+//!
+//! The XML is difficult to parse with serde, so we use this to remove things that cause problems,
+//! and we aren't going to use anyway.
+//!
+//! Might need to consider using xpath or DOM parsing in the future.
+use crate::error;
+use crate::error::Error::XmlError;
 
 const XSLT: &str = env!("GAME_XSLT");
-
-// The game / item xml is difficult to parse. Use xslt to remove things that cause problems and we
-// aren't going to use anyway.
 
 pub(super) fn transform(xml: &str) -> error::Result<String> {
     let xml_doc = libxml::parser::Parser::default()
@@ -25,7 +28,7 @@ pub(super) fn transform(xml: &str) -> error::Result<String> {
 
 #[cfg(test)]
 mod tests {
-    use crate::bgg::thing::xslt::transform;
+    use crate::thing::xslt::transform;
     use std::fs;
 
     #[test]

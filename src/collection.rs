@@ -1,5 +1,6 @@
-use crate::bgg::error;
-use crate::bgg::error::Error::{InvalidUserError, XmlApiError, XmlError};
+//! The response from the `/collection` endpoint.
+use crate::error;
+use crate::error::Error::{InvalidUserError, XmlApiError, XmlError};
 use serde::{Deserialize, Serialize};
 
 pub(super) fn from_xml(xml: &str) -> error::Result<Vec<Item>> {
@@ -29,10 +30,11 @@ fn serde_xml<'a, T: Deserialize<'a>>(xml: &str) -> error::Result<T> {
         .map_err(|error| XmlError(format!("Error deserializing xml: {}", error)))
 }
 
+/// Represents a user's collection.
 #[derive(Deserialize, Serialize)]
 pub struct Item {
     #[serde(rename = "objectid")]
-    pub id: usize,
+    pub id: u32,
     pub name: String,
 }
 
@@ -56,8 +58,8 @@ struct ErrorResponses {
 
 #[cfg(test)]
 mod tests {
-    use crate::bgg::collection::{from_xml, ErrorResponses, Items};
-    use crate::bgg::error::Error::{InvalidUserError, XmlApiError};
+    use crate::collection::{from_xml, ErrorResponses, Items};
+    use crate::error::Error::{InvalidUserError, XmlApiError};
     use std::fs;
 
     #[test]
