@@ -32,7 +32,7 @@ fn serde_xml<'a, T: Deserialize<'a>>(xml: &str) -> error::Result<T> {
 #[derive(Deserialize, Serialize)]
 pub struct Item {
     #[serde(rename = "objectid")]
-    pub id: usize,
+    pub id: u32,
     pub name: String,
 }
 

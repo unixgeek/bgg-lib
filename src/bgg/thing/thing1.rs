@@ -29,7 +29,7 @@ impl Items {
 
 #[derive(Deserialize)]
 pub(super) struct Item {
-    pub(super) id: usize,
+    pub(super) id: u32,
     #[serde(rename = "type")]
     pub(super) thing_type: String,
     #[serde(rename = "name")]
@@ -53,7 +53,7 @@ pub(super) struct Name {
 // example: <minplayers value="2"/>
 #[derive(Deserialize)]
 pub(super) struct ElementWithIntValueAttribute {
-    pub(super) value: usize,
+    pub(super) value: u8,
 }
 
 #[derive(Deserialize)]
@@ -66,7 +66,7 @@ pub(super) struct ElementWithFloatValueAttribute {
 pub(super) struct Poll {
     // This is "total voters" on the website.
     #[serde(rename = "totalvotes")]
-    pub(super) voter_count: usize,
+    pub(super) voter_count: u16,
     pub(super) results: Vec<Results>,
 }
 
@@ -83,7 +83,7 @@ pub(super) struct Result {
     #[serde(deserialize_with = "category_from_str")]
     pub(super) value: Category,
     #[serde(rename = "numvotes")]
-    pub(super) vote_count: usize,
+    pub(super) vote_count: u16,
 }
 
 #[derive(Deserialize, PartialEq, Debug)]

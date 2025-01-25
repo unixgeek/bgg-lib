@@ -12,13 +12,13 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Deserialize, Serialize)]
 pub struct Game {
-    pub id: usize,
+    pub id: u32,
     pub is_expansion: bool,
     pub name: String,
-    pub min_player_count: usize,
-    pub max_player_count: usize,
-    pub voter_count: usize,
-    pub best_player_counts: Vec<usize>,
+    pub min_player_count: u8,
+    pub max_player_count: u8,
+    pub voter_count: u16,
+    pub best_player_counts: Vec<u8>,
     pub rating: f64,
 }
 
@@ -50,7 +50,7 @@ impl TryFrom<Item> for Game {
         */
         let mut best_player_counts = Vec::new();
         for poll_results in best_player_results {
-            if let Ok(player_count) = poll_results.player_count.parse::<usize>() {
+            if let Ok(player_count) = poll_results.player_count.parse::<u8>() {
                 // Get the total vote count.
                 let total_count = poll_results
                     .results_by_category
