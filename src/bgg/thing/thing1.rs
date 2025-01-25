@@ -53,7 +53,7 @@ pub(super) struct Name {
 // example: <minplayers value="2"/>
 #[derive(Deserialize)]
 pub(super) struct ElementWithIntValueAttribute {
-    pub(super) value: u8,
+    pub(super) value: u16,
 }
 
 #[derive(Deserialize)]

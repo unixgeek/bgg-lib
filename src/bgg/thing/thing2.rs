@@ -15,10 +15,10 @@ pub struct Game {
     pub id: u32,
     pub is_expansion: bool,
     pub name: String,
-    pub min_player_count: u8,
-    pub max_player_count: u8,
+    pub min_player_count: u16,
+    pub max_player_count: u16,
     pub voter_count: u16,
-    pub best_player_counts: Vec<u8>,
+    pub best_player_counts: Vec<u16>,
     pub rating: f64,
 }
 
@@ -50,7 +50,7 @@ impl TryFrom<Item> for Game {
         */
         let mut best_player_counts = Vec::new();
         for poll_results in best_player_results {
-            if let Ok(player_count) = poll_results.player_count.parse::<u8>() {
+            if let Ok(player_count) = poll_results.player_count.parse::<u16>() {
                 // Get the total vote count.
                 let total_count = poll_results
                     .results_by_category
