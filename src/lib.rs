@@ -15,6 +15,7 @@ mod collection;
 pub mod error;
 mod request;
 mod thing;
+mod options;
 
 pub use crate::collection::Item as CollectionItem;
 use crate::request::RequestResult;
@@ -62,7 +63,7 @@ impl BggClient {
     /// Get a user's collection.
     ///
     /// Calls `/collection` with `brief=1` and `subtype=boardgame`.
-    pub fn get_collection(
+    pub fn collection(
         &self,
         user: &str,
         include_expansions: bool,
@@ -96,7 +97,7 @@ impl BggClient {
     /// Get games.
     ///
     /// Calls `/thing`.
-    /// Note that [Self::get_collection] is limited to the `boardgame` subtype, but this is not.
+    /// Note that [Self::collection] is limited to the `boardgame` subtype, but this is not.
     /// `Thing`s that are not boardgames have not been tested.
     pub fn get_games(&self, ids: &[u32]) -> error::Result<Vec<Game>> {
         let mut games = Vec::new();
@@ -114,14 +115,14 @@ impl BggClient {
 
     /// Get all games for a user.
     ///
-    /// This basically just calls [Self::get_collection] and [Self::get_games].
+    /// This basically just calls [Self::collection] and [Self::get_games].
     pub fn get_all_games_for_user(
         &self,
         user: &str,
         include_expansions: bool,
     ) -> error::Result<Vec<Game>> {
         let ids = self
-            .get_collection(user, include_expansions)?
+            .collection(user, include_expansions)?
             .into_iter()
             .map(|item| item.id)
             .collect::<Vec<u32>>();
