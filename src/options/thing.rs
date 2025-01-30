@@ -1,5 +1,6 @@
-use crate::options::bool_to_string;
+use crate::options::bool_to_param;
 
+#[allow(dead_code)]
 #[derive(Debug, PartialEq)]
 pub enum ThingType {
     BoardGame,
@@ -10,15 +11,17 @@ pub enum ThingType {
     RPGIssue,
 }
 
+#[allow(dead_code)]
 pub struct ThingOptions {
     thing_types: Vec<ThingType>,
     versions: bool,
     videos: bool,
     stats: bool,
     marketplace: bool,
-    comments: bool, // todo Seems like it needs page and pagesize also need ratingcomments, which are mutually exclusive?
+    comments: bool, // todo Seems like it needs page and pagesize also need ratingcomments, which are mutually exclusive? use enum for mutually exclusive thing?
 }
 
+#[allow(dead_code)]
 impl ThingOptions {
     pub(super) fn into_url_params(self) -> String {
         let mut params = String::new();
@@ -39,25 +42,22 @@ impl ThingOptions {
 
         params.push_str("&thingtype=");
         params.push_str(&thing_types);
-        params.push_str("&versions=");
-        params.push_str(&bool_to_string(self.versions));
-        params.push_str("&videos=");
-        params.push_str(&bool_to_string(self.videos));
-        params.push_str("&stats=");
-        params.push_str(&bool_to_string(self.stats));
-        params.push_str("&marketplace=");
-        params.push_str(&bool_to_string(self.marketplace));
-        params.push_str("&comments=");
-        params.push_str(&bool_to_string(self.comments));
+        params.push_str(&bool_to_param("versions", self.versions)); // todo Use a trait? then just .into() or as_whatever()?
+        params.push_str(&bool_to_param("videos", self.videos));
+        params.push_str(&bool_to_param("stats", self.stats));
+        params.push_str(&bool_to_param("marketplace", self.marketplace));
+        params.push_str(&bool_to_param("comments", self.comments));
 
         params
     }
 }
 
+#[allow(dead_code)]
 struct ThingOptionsBuilder {
     options: ThingOptions,
 }
 
+#[allow(dead_code)]
 impl Default for ThingOptionsBuilder {
     fn default() -> Self {
         Self {
@@ -73,6 +73,7 @@ impl Default for ThingOptionsBuilder {
     }
 }
 
+#[allow(dead_code)]
 impl ThingOptionsBuilder {
     pub fn thing_type(mut self, thing_type: Vec<ThingType>) -> Self {
         self.options.thing_types = thing_type;
@@ -129,10 +130,13 @@ mod tests {
         assert_eq!(options.stats, true);
         assert_eq!(options.marketplace, false);
         assert_eq!(options.comments, true);
-        assert_eq!(options.thing_types, vec![ThingType::BoardGame, ThingType::VideoGame]);
+        assert_eq!(
+            options.thing_types,
+            vec![ThingType::BoardGame, ThingType::VideoGame]
+        );
         assert_eq!(
             options.into_url_params(),
-            "&thingtype=boardgame,videogame&versions=1&videos=0&stats=1&marketplace=0&comments=1"
+            "&thingtype=boardgame,videogame&versions=1&stats=1&comments=1"
         )
     }
 }

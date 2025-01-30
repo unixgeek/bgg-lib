@@ -1,9 +1,10 @@
 //! The response from the `/collection` endpoint.
 use crate::error;
 use crate::error::Error::{InvalidUserError, XmlApiError, XmlError};
+use crate::options::collections::CollectionOptions;
 use serde::{Deserialize, Serialize};
 
-pub(super) fn from_xml(xml: &str) -> error::Result<Vec<Item>> {
+pub(super) fn from_xml(xml: &str, _options: &CollectionOptions) -> error::Result<Vec<Item>> {
     #[cfg(feature = "moar-debug")]
     log::debug!("Collection XML: {}", xml);
 
@@ -60,6 +61,7 @@ struct ErrorResponses {
 mod tests {
     use crate::collection::{from_xml, ErrorResponses, Items};
     use crate::error::Error::{InvalidUserError, XmlApiError};
+    use crate::options::collections::CollectionOptionsBuilder;
     use std::fs;
 
     #[test]
@@ -108,8 +110,10 @@ mod tests {
 
     #[test]
     fn test_from_xml_invalid_user_error() {
-        let result =
-            from_xml(&fs::read_to_string("test/invalid-username.xml").expect("Reading file"));
+        let result = from_xml(
+            &fs::read_to_string("test/invalid-username.xml").expect("Reading file"),
+            &CollectionOptionsBuilder::default("foo").build(),
+        );
 
         assert!(result.is_err());
         assert!(matches!(result, Err(InvalidUserError)));
@@ -117,8 +121,10 @@ mod tests {
 
     #[test]
     fn test_from_xml_unknown_error() {
-        let result =
-            from_xml(&fs::read_to_string("test/unknown-errors.xml").expect("Reading file"));
+        let result = from_xml(
+            &fs::read_to_string("test/unknown-errors.xml").expect("Reading file"),
+            &CollectionOptionsBuilder::default("foo").build(),
+        );
 
         assert!(result.is_err());
         assert!(matches!(result, Err(XmlApiError(_))));

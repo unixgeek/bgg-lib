@@ -12,3 +12,9 @@ fn main() -> error::Result<()>{
     Ok(())
 }
 ```
+
+
+curl -o full.xml 'https://boardgamegeek.com/xmlapi2/collection?username=techgunter'
+curl -o brief.xml 'https://boardgamegeek.com/xmlapi2/collection?username=techgunter&brief=1'
+
+Does own=1 inherently mean prevowned=0?

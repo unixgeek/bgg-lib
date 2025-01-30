@@ -13,11 +13,12 @@
 //! ```
 mod collection;
 pub mod error;
+pub mod options;
 mod request;
 mod thing;
-mod options;
 
 pub use crate::collection::Item as CollectionItem;
+use crate::options::collections::{CollectionOptions, CollectionOptionsBuilder, Filter};
 use crate::request::RequestResult;
 pub use crate::thing::Game;
 use log::debug;
@@ -63,20 +64,11 @@ impl BggClient {
     /// Get a user's collection.
     ///
     /// Calls `/collection` with `brief=1` and `subtype=boardgame`.
-    pub fn collection(
-        &self,
-        user: &str,
-        include_expansions: bool,
-    ) -> error::Result<Vec<CollectionItem>> {
-        let exclude_param = if include_expansions {
-            ""
-        } else {
-            "&excludesubtype=boardgameexpansion"
-        };
-
+    pub fn collection(&self, options: CollectionOptions) -> error::Result<Vec<CollectionItem>> {
         let url = format!(
-            "{base}/xmlapi2/collection?username={user}&own=1&brief=1&subtype=boardgame{exclude_param}",
-            base = self.url
+            "{base}/xmlapi2/collection{params}",
+            base = self.url,
+            params = options.as_url_params()
         );
 
         request::do_request(|| {
@@ -87,7 +79,7 @@ impl BggClient {
             match status_code {
                 200 => {
                     let xml = response.into_string()?;
-                    Ok(RequestResult::Done(collection::from_xml(&xml)))
+                    Ok(RequestResult::Done(collection::from_xml(&xml, &options)))
                 }
                 _ => Ok(RequestResult::NotDone(status_code)),
             }
@@ -119,10 +111,17 @@ impl BggClient {
     pub fn get_all_games_for_user(
         &self,
         user: &str,
-        include_expansions: bool,
+        _include_expansions: bool,
     ) -> error::Result<Vec<Game>> {
+        let options = CollectionOptionsBuilder::default(user)
+            .own(Filter::Include)
+            .build();
+        // if !include_expansions {
+        //     options_builder = options_builder.exclude_sub_type(ThingType::BoardGameExpansion);
+        // };
+
         let ids = self
-            .collection(user, include_expansions)?
+            .collection(options)?
             .into_iter()
             .map(|item| item.id)
             .collect::<Vec<u32>>();
