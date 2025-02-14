@@ -18,3 +18,11 @@ curl -o full.xml 'https://boardgamegeek.com/xmlapi2/collection?username=techgunt
 curl -o brief.xml 'https://boardgamegeek.com/xmlapi2/collection?username=techgunter&brief=1'
 
 Does own=1 inherently mean prevowned=0?
+
+
+https://crates.io/crates/spex
+https://crates.io/crates/xavier
+https://crates.io/crates/xavier-derive
+https://crates.io/crates/hard-xml
+https://crates.io/crates/quick-xml
+
