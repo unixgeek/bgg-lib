@@ -20,7 +20,8 @@ pub use crate::collection::Item as CollectionItem;
 use crate::request::RequestResult;
 pub use crate::thing::Game;
 use log::debug;
-use ureq::{Agent, AgentBuilder, Response};
+use ureq::http::{HeaderMap, HeaderValue, StatusCode};
+use ureq::Agent;
 
 // bgg says max is 20.
 const MAX_IDS: u8 = 20;
@@ -40,14 +41,16 @@ impl BggClient {
     /// * <https://rpggeek.com>
     /// * <https://videogamegeek.com>
     pub fn from_url(url: &str) -> Self {
-        let agent = AgentBuilder::new()
-            .user_agent(&format!(
+        let agent = Agent::config_builder()
+            .http_status_as_error(false)
+            .user_agent(format!(
                 "{} {} {}",
                 env!("CARGO_PKG_NAME"),
                 env!("CARGO_PKG_VERSION"),
                 env!("CARGO_PKG_REPOSITORY")
             ))
-            .build();
+            .build()
+            .into();
         Self {
             agent,
             url: url.to_owned(),
@@ -79,13 +82,13 @@ impl BggClient {
         );
 
         request::do_request(|| {
-            let response = request::request_with_all_status_codes(self.agent.get(&url))?;
-            log_headers(&response);
+            let mut response = self.agent.get(&url).call()?;
+            log_headers(response.headers());
 
             let status_code = response.status();
             match status_code {
-                200 => {
-                    let xml = response.into_string()?;
+                StatusCode::OK => {
+                    let xml = response.body_mut().read_to_string()?;
                     Ok(RequestResult::Done(collection::from_xml(&xml)))
                 }
                 _ => Ok(RequestResult::NotDone(status_code)),
@@ -134,17 +137,20 @@ impl BggClient {
 
         request::do_request(|| {
             let ids_string = ids_as_strings.join(",");
-            let response = request::request_with_all_status_codes(self.agent.get(&format!(
-                "{base}/xmlapi2/thing?id={ids_string}&stats=1",
-                base = self.url
-            )))?;
+            let mut response = self
+                .agent
+                .get(&format!(
+                    "{base}/xmlapi2/thing?id={ids_string}&stats=1",
+                    base = self.url
+                ))
+                .call()?;
 
-            log_headers(&response);
+            log_headers(response.headers());
 
             let status_code = response.status();
             match response.status() {
-                200 => Ok(RequestResult::Done(thing::from_xml(
-                    &response.into_string()?,
+                StatusCode::OK => Ok(RequestResult::Done(thing::from_xml(
+                    &response.body_mut().read_to_string()?,
                 )?)),
                 _ => Ok(RequestResult::NotDone(status_code)),
             }
@@ -153,15 +159,18 @@ impl BggClient {
 }
 
 #[cfg(feature = "moar-debug")]
-fn log_headers(response: &Response) {
-    response.headers_names().iter().for_each(|header| {
-        if let Some(value) = response.header(header) {
-            debug!("HEADER FOR RESEARCH {}: {}", header, value);
-        }
+fn log_headers(headers: &HeaderMap<HeaderValue>) {
+    headers.iter().for_each(|(name, value)| {
+        debug!(
+            "HEADER FOR RESEARCH {}: {}",
+            name,
+            value.to_str().unwrap_or("not a string")
+        );
     });
 }
+
 #[cfg(not(feature = "moar-debug"))]
-fn log_headers(_: &Response) {}
+fn log_headers(_: &HeaderMap<HeaderValue>) {}
 
 impl Default for BggClient {
     fn default() -> Self {
