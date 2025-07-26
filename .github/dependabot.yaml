@@ -10,3 +10,13 @@ updates:
         update-types:
           - "minor"
           - "patch"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "quarterly"
+    groups:
+      actions-dependencies:
+        applies-to: "version-updates"
+        update-types:
+          - "minor"
+          - "patch"
