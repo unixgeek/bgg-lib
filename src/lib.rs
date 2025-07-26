@@ -20,8 +20,8 @@ pub use crate::collection::Item as CollectionItem;
 use crate::request::RequestResult;
 pub use crate::thing::Game;
 use log::debug;
-use ureq::http::{HeaderMap, HeaderValue, StatusCode};
 use ureq::Agent;
+use ureq::http::{HeaderMap, HeaderValue, StatusCode};
 
 // bgg says max is 20.
 const MAX_IDS: u8 = 20;
@@ -108,7 +108,7 @@ impl BggClient {
 
         for chunk in ids.chunks(MAX_IDS as usize) {
             count += chunk.len();
-            debug!("Getting games ({} / {})", count, total);
+            debug!("Getting games ({count} / {total})");
             games.extend(self.get_games_from_api(chunk)?);
         }
 

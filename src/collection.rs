@@ -27,7 +27,7 @@ pub(super) fn from_xml(xml: &str) -> error::Result<Vec<Item>> {
 
 fn serde_xml<'a, T: Deserialize<'a>>(xml: &str) -> error::Result<T> {
     serde_xml_rs::from_str::<T>(xml)
-        .map_err(|error| XmlError(format!("Error deserializing xml: {}", error)))
+        .map_err(|error| XmlError(format!("Error deserializing xml: {error}")))
 }
 
 /// Represents a user's collection.
@@ -58,7 +58,7 @@ struct ErrorResponses {
 
 #[cfg(test)]
 mod tests {
-    use crate::collection::{from_xml, ErrorResponses, Items};
+    use crate::collection::{ErrorResponses, Items, from_xml};
     use crate::error::Error::{InvalidUserError, XmlApiError};
     use std::fs;
 

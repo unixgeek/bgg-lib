@@ -17,7 +17,7 @@ pub(super) fn from_xml(xml: &str) -> error::Result<Vec<Game>> {
     log::debug!("Things XML: {}", xml);
 
     let items: Vec<Item> = serde_xml_rs::from_str::<Items>(&xslt::transform(xml)?)
-        .map_err(|error| XmlError(format!("Error deserializing xml: {}", error)))?
+        .map_err(|error| XmlError(format!("Error deserializing xml: {error}")))?
         .into_inner();
 
     let mut games = Vec::new();

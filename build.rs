@@ -20,5 +20,5 @@ fn main() {
         }
         buffer.clear();
     }
-    println!("cargo:rustc-env=GAME_XSLT={}", result);
+    println!("cargo:rustc-env=GAME_XSLT={result}");
 }

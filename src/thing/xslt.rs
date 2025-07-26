@@ -12,15 +12,12 @@ const XSLT: &str = env!("GAME_XSLT");
 pub(super) fn transform(xml: &str) -> error::Result<String> {
     let xml_doc = libxml::parser::Parser::default()
         .parse_string(xml)
-        .map_err(|err| XmlError(format!("Error parsing xml with libxml: {}", err)))?;
+        .map_err(|err| XmlError(format!("Error parsing xml with libxml: {err}")))?;
 
     match libxslt::parser::parse_bytes(XSLT.to_owned().into_bytes(), "") {
         Ok(mut stylesheet) => match stylesheet.transform(&xml_doc, vec![]) {
             Ok(result_doc) => Ok(result_doc.to_string()),
-            Err(err) => Err(XmlError(format!(
-                "Error transforming xml with xslt: {}",
-                err
-            ))),
+            Err(err) => Err(XmlError(format!("Error transforming xml with xslt: {err}"))),
         },
         Err(error) => Err(XmlError(format!("Error parsing xml with xslt: {error}"))),
     }

@@ -32,7 +32,7 @@ where
             RequestResult::Done(t) => return Ok(t),
             RequestResult::NotDone(status_code) => match status_code {
                 StatusCode::TOO_MANY_REQUESTS => {
-                    debug!("Too many requests, sleeping {}", wait_seconds);
+                    debug!("Too many requests, sleeping {wait_seconds}");
                     thread::sleep(Duration::from_secs(wait_seconds.into()));
                     retries += 1;
                     wait_seconds *= WAIT_MULTIPLIER;
