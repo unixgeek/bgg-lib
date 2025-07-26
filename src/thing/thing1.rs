@@ -18,8 +18,9 @@ impl Items {
 
 #[derive(Deserialize)]
 pub(super) struct Item {
+    #[serde(rename = "@id")]
     pub(super) id: u32,
-    #[serde(rename = "type")]
+    #[serde(rename = "@type")]
     pub(super) thing_type: String,
     #[serde(rename = "name")]
     pub(super) names: Vec<Name>,
@@ -34,19 +35,22 @@ pub(super) struct Item {
 // example: <name type="primary" sortindex="1" value="Eclipse: Second Dawn for the Galaxy"/>
 #[derive(Deserialize)]
 pub(super) struct Name {
-    #[serde(rename = "type")]
+    #[serde(rename = "@type")]
     pub(super) _type: String,
+    #[serde(rename = "@value")]
     pub(super) value: String,
 }
 
 // example: <minplayers value="2"/>
 #[derive(Deserialize)]
 pub(super) struct ElementWithIntValueAttribute {
+    #[serde(rename = "@value")]
     pub(super) value: u16,
 }
 
 #[derive(Deserialize)]
 pub(super) struct ElementWithFloatValueAttribute {
+    #[serde(rename = "@value")]
     pub(super) value: f64,
 }
 
@@ -54,14 +58,14 @@ pub(super) struct ElementWithFloatValueAttribute {
 #[derive(Deserialize)]
 pub(super) struct Poll {
     // This is "total voters" on the website.
-    #[serde(rename = "totalvotes")]
+    #[serde(rename = "@totalvotes")]
     pub(super) voter_count: u16,
     pub(super) results: Vec<Results>,
 }
 
 #[derive(Deserialize)]
 pub(super) struct Results {
-    #[serde(rename = "numplayers")]
+    #[serde(rename = "@numplayers")]
     pub(super) player_count: String,
     #[serde(rename = "result", default)]
     pub(super) results_by_category: Vec<Result>,
@@ -70,8 +74,9 @@ pub(super) struct Results {
 #[derive(Deserialize)]
 pub(super) struct Result {
     #[serde(deserialize_with = "category_from_str")]
+    #[serde(rename = "@value")]
     pub(super) value: Category,
-    #[serde(rename = "numvotes")]
+    #[serde(rename = "@numvotes")]
     pub(super) vote_count: u16,
 }
 
