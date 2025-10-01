@@ -20,7 +20,7 @@ jobs:
           rustup toolchain install --profile minimal --component clippy,rustfmt -- 1.88.0
           rustup default 1.88.0
       - name: Set Up Rust Cache
-        uses: Swatinem/rust-cache@v2.8.0
+        uses: Swatinem/rust-cache@v2.8.1
       - name: Run All Checks
         run: |
           echo Test
