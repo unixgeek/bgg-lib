@@ -36,7 +36,7 @@ pub(super) struct Item {
 #[derive(Deserialize)]
 pub(super) struct Name {
     #[serde(rename = "@type")]
-    pub(super) _type: String,
+    pub(super) r#type: String,
     #[serde(rename = "@value")]
     pub(super) value: String,
 }
@@ -143,7 +143,7 @@ mod tests {
         assert_eq!(game.id, 246900);
         assert_eq!(game.thing_type, "boardgame");
         assert_eq!(game.names.len(), 9);
-        let name = game.names.iter().find(|n| n._type == "primary").unwrap();
+        let name = game.names.iter().find(|n| n.r#type == "primary").unwrap();
         assert_eq!(name.value, "Eclipse: Second Dawn for the Galaxy");
         assert_eq!(game.min_players.value, 2);
         assert_eq!(game.max_players.value, 6);

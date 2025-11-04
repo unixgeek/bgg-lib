@@ -1,0 +1,28 @@
+name: Library Documentation
+on:
+  push:
+    tags: [ "*" ]
+jobs:
+  all:
+    name: Upload Docs
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5.0.0
+      - name: Install Required Packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends --yes pkg-config libxslt1-dev libxml2-dev
+      - name: Set Up Rust Toolchain
+        run: |
+          rustup toolchain install --profile minimal -- 1.91.0
+          rustup default 1.91.0
+      - name: Set Up Rust Cache
+        uses: Swatinem/rust-cache@v2.8.1
+      - name: Generate Docs
+        run: cargo doc --no-deps
+      - run: cargo doc
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v4.0.0
+        with:
+          path: target/doc

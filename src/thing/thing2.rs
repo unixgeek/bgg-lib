@@ -1,7 +1,7 @@
 //! Final representation of the response from the `/thing` endpoint.
 //!
-//! By using serde, [Item] in `thing1` is mostly a 1:1 representation of the XML, but that is
-//! awkward to use. This module maps [Item] to an easier to use structure: [Game]. The XML API
+//! By using serde, [`Item`] in `thing1` is mostly a 1:1 representation of the XML, but that is
+//! awkward to use. This module maps [`Item`] to an easier to use structure: [Game]. The XML API
 //! documentation states the result of the endpoint are "thing items", so maybe this should be
 //! called `Thing` or `Item`, but we only care about board games, so we use `Game`.
 use crate::error;
@@ -34,7 +34,7 @@ impl TryFrom<Item> for Game {
             .into_iter()
             // A <results> element can have an attribute, numplayers, with a non-integer value, i.e. <results numplayers="6+">.
             // I don't think these are of any value, so simply ignore them.
-            .filter(|poll_results| !poll_results.player_count.contains("+"))
+            .filter(|poll_results| !poll_results.player_count.contains('+'))
             .collect();
 
         /*
@@ -64,7 +64,7 @@ impl TryFrom<Item> for Game {
                     .find(|c| c.value == Category::Best)
                     .map_or(0, |c| c.vote_count);
 
-                let percentage = (best_count as f64) / (total_count as f64) * 100.0;
+                let percentage = f64::from(best_count) / f64::from(total_count) * 100.0;
 
                 // Based on observation. Not sure if this is the actual algorithm.
                 if percentage > 50.0 {
@@ -79,7 +79,7 @@ impl TryFrom<Item> for Game {
             }
         }
 
-        let name = if let Some(name) = item.names.into_iter().find(|n| n._type == "primary") {
+        let name = if let Some(name) = item.names.into_iter().find(|n| n.r#type == "primary") {
             name.value
         } else {
             return Err(XmlApiError("No primary name found".to_owned()));

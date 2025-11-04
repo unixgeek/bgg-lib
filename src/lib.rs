@@ -6,7 +6,7 @@
 //! ```no_run
 //! # use bgg_lib::{error, BggClient};
 //! # fn main() -> error::Result<()>{
-//!     let client = BggClient::new();
+//!     let client = BggClient::new("API_TOKEN");
 //!     let games = client.get_all_games_for_user("unixgeek", false)?;
 //!     # Ok(())
 //! # }
@@ -30,17 +30,18 @@ const MAX_IDS: u8 = 20;
 pub struct BggClient {
     agent: Agent,
     url: String,
+    api_token: String,
 }
 
 impl BggClient {
-    /// Creates a [BggClient] with the specified URL as the base.
+    /// Creates a [`BggClient`] with the specified URL as the base.
     ///
-    /// [Self::default] uses <https://boardgamegeek.com>. This might be useful if using one of the
+    /// [`Self::new`] uses <https://boardgamegeek.com>. This might be useful if using one of the
     /// other available apis or local testing.
     /// Other apis:
     /// * <https://rpggeek.com>
     /// * <https://videogamegeek.com>
-    pub fn from_url(url: &str) -> Self {
+    pub fn from_url(url: &str, api_token: &str) -> Self {
         let agent = Agent::config_builder()
             .http_status_as_error(false)
             .user_agent(format!(
@@ -54,12 +55,13 @@ impl BggClient {
         Self {
             agent,
             url: url.to_owned(),
+            api_token: api_token.to_owned(),
         }
     }
 
-    /// Creates a [BggClient].
-    pub fn new() -> Self {
-        Self::from_url("https://boardgamegeek.com")
+    /// Creates a [`BggClient`].
+    pub fn new(api_token: &str) -> Self {
+        Self::from_url("https://boardgamegeek.com", api_token)
     }
 
     /// Get a user's collection.
@@ -82,7 +84,11 @@ impl BggClient {
         );
 
         request::do_request(|| {
-            let mut response = self.agent.get(&url).call()?;
+            let mut response = self
+                .agent
+                .get(&url)
+                .header("Authorization", format!("Bearer {}", self.api_token))
+                .call()?;
             log_headers(response.headers());
 
             let status_code = response.status();
@@ -99,7 +105,7 @@ impl BggClient {
     /// Get games.
     ///
     /// Calls `/thing`.
-    /// Note that [Self::get_collection] is limited to the `boardgame` subtype, but this is not.
+    /// Note that [`Self::get_collection`] is limited to the `boardgame` subtype, but this is not.
     /// `Thing`s that are not boardgames have not been tested.
     pub fn get_games(&self, ids: &[u32]) -> error::Result<Vec<Game>> {
         let mut games = Vec::new();
@@ -117,7 +123,7 @@ impl BggClient {
 
     /// Get all games for a user.
     ///
-    /// This basically just calls [Self::get_collection] and [Self::get_games].
+    /// This basically just calls [`Self::get_collection`] and [`Self::get_games`].
     pub fn get_all_games_for_user(
         &self,
         user: &str,
@@ -133,7 +139,7 @@ impl BggClient {
     }
 
     fn get_games_from_api(&self, ids: &[u32]) -> error::Result<Vec<Game>> {
-        let ids_as_strings = ids.iter().map(|id| id.to_string()).collect::<Vec<String>>();
+        let ids_as_strings = ids.iter().map(ToString::to_string).collect::<Vec<String>>();
 
         request::do_request(|| {
             let ids_string = ids_as_strings.join(",");
@@ -143,6 +149,7 @@ impl BggClient {
                     "{base}/xmlapi2/thing?id={ids_string}&stats=1",
                     base = self.url
                 ))
+                .header("Authorization", format!("Bearer {}", self.api_token))
                 .call()?;
 
             log_headers(response.headers());
@@ -171,9 +178,3 @@ fn log_headers(headers: &HeaderMap<HeaderValue>) {
 
 #[cfg(not(feature = "moar-debug"))]
 fn log_headers(_: &HeaderMap<HeaderValue>) {}
-
-impl Default for BggClient {
-    fn default() -> Self {
-        Self::new()
-    }
-}

@@ -15,7 +15,7 @@ fn main() {
             break;
         }
         if !buffer.contains("<!--") {
-            let s = buffer.trim().replace("\n", "");
+            let s = buffer.trim().replace('\n', "");
             result.push_str(&s);
         }
         buffer.clear();
