@@ -1,10 +1,10 @@
 name: Library Documentation
 on:
   push:
-    tags: [ "*" ]
+    branches: [ "master" ]
 jobs:
-  all:
-    name: Upload Docs
+  build:
+    name: Generate Docs
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout
@@ -20,9 +20,23 @@ jobs:
       - name: Set Up Rust Cache
         uses: Swatinem/rust-cache@v2.8.1
       - name: Generate Docs
-        run: cargo doc --no-deps
-      - run: cargo doc
+        run: |
+          cargo doc --no-deps
+          echo "<meta http-equiv=\"refresh\" content=\"0; url=bgg_lib\">" > target/doc/index.html
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4.0.0
         with:
           path: target/doc
+  deploy:
+    needs: build
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4.0.5
