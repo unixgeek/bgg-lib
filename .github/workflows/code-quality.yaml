@@ -3,32 +3,32 @@ on:
   push:
     branches: [ "*" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ master ]
 jobs:
   all:
     name: All Checks
     runs-on: ubuntu-24.04
     steps:
-      - name: Checkout
-        uses: actions/checkout@v5.0.0
-      - name: Install Required Packages
-        run: |
-          sudo apt-get update
-          sudo apt-get install --no-install-recommends --yes pkg-config libxslt1-dev libxml2-dev
-      - name: Set Up Rust Toolchain
-        run: |
-          rustup toolchain install --profile minimal --component clippy,rustfmt -- 1.91.0
-          rustup default 1.91.0
-      - name: Set Up Rust Cache
-        uses: Swatinem/rust-cache@v2.8.1
-      - name: Run All Checks
-        run: |
-          echo Test
-          cargo test || touch fail
-          echo Check
-          cargo check || touch fail
-          echo Clippy
-          cargo clippy -- --deny warnings || touch fail
-          echo Format
-          cargo fmt --all -- --check || touch fail
-          test ! -e fail
+    - name: Checkout
+      uses: actions/checkout@v5.0.0
+    - name: Install Required Packages
+      run: |
+        sudo apt-get update
+        sudo apt-get install --no-install-recommends --yes pkg-config libxslt1-dev libxml2-dev
+    - name: Set Up Rust Toolchain
+      run: |
+        rustup toolchain install --profile minimal --component clippy,rustfmt -- 1.91.0
+        rustup default 1.91.0
+    - name: Set Up Rust Cache
+      uses: Swatinem/rust-cache@v2.8.1
+    - name: Run All Checks
+      run: |
+        echo Test
+        cargo test || touch fail
+        echo Check
+        cargo check || touch fail
+        echo Clippy
+        cargo clippy -- --deny warnings || touch fail
+        echo Format
+        cargo fmt --all -- --check || touch fail
+        test ! -e fail

@@ -1,32 +1,32 @@
 name: Library Documentation
 on:
   push:
-    branches: [ "master" ]
+    branches: [ master ]
 jobs:
   build:
     name: Generate Docs
     runs-on: ubuntu-24.04
     steps:
-      - name: Checkout
-        uses: actions/checkout@v5.0.0
-      - name: Install Required Packages
-        run: |
-          sudo apt-get update
-          sudo apt-get install --no-install-recommends --yes pkg-config libxslt1-dev libxml2-dev
-      - name: Set Up Rust Toolchain
-        run: |
-          rustup toolchain install --profile minimal -- 1.91.0
-          rustup default 1.91.0
-      - name: Set Up Rust Cache
-        uses: Swatinem/rust-cache@v2.8.1
-      - name: Generate Docs
-        run: |
-          cargo doc --no-deps
-          echo "<meta http-equiv=\"refresh\" content=\"0; url=bgg_lib\">" > target/doc/index.html
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v4.0.0
-        with:
-          path: target/doc
+    - name: Checkout
+      uses: actions/checkout@v5.0.0
+    - name: Install Required Packages
+      run: |
+        sudo apt-get update
+        sudo apt-get install --no-install-recommends --yes pkg-config libxslt1-dev libxml2-dev
+    - name: Set Up Rust Toolchain
+      run: |
+        rustup toolchain install --profile minimal -- 1.91.0
+        rustup default 1.91.0
+    - name: Set Up Rust Cache
+      uses: Swatinem/rust-cache@v2.8.1
+    - name: Generate Docs
+      run: |
+        cargo doc --no-deps
+        echo "<meta http-equiv=\"refresh\" content=\"0; url=bgg_lib\">" > target/doc/index.html
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v4.0.0
+      with:
+        path: target/doc
   deploy:
     needs: build
     permissions:
@@ -37,6 +37,6 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-24.04
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4.0.5
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4.0.5
