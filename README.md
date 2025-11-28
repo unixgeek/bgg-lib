@@ -7,8 +7,10 @@ The data is limited to a small number of fields for my use case.
 ```rust
 use bgg_lib::{error, BggClient};
 fn main() -> error::Result<()>{
-    let client = BggClient::new();
+    let client = BggClient::new("API_TOKEN");
     let games = client.get_all_games_for_user("unixgeek", false)?;
     Ok(())
 }
 ```
+## Documentation
+[bgg_lib](https://unixgeek.github.io/bgg-lib/bgg_lib/)
