@@ -18,7 +18,7 @@ jobs:
           rustup toolchain install --profile minimal -- 1.91.0
           rustup default 1.91.0
       - name: Set Up Rust Cache
-        uses: Swatinem/rust-cache@v2.8.1
+        uses: Swatinem/rust-cache@v2.8.2
       - name: Generate Docs
         run: |
           cargo doc --no-deps
