@@ -8,7 +8,7 @@ repository = "https://github.com/unixgeek/bgg-lib"
 [dependencies]
 libxslt = "=0.1.2"
 libxml = "=0.3.8"
-log = "=0.4.28"
+log = "=0.4.29"
 ureq = "3.0.5"
 serde = { version = "1.0.217", features = ["derive"] }
 serde-xml-rs = "=0.8.1"
