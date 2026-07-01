@@ -6,7 +6,7 @@ license = "MIT"
 repository = "https://github.com/unixgeek/bgg-lib"
 
 [dependencies]
-libxslt = "=0.1.2"
+libxslt = "=0.1.4"
 libxml = "=0.3.14"
 log = "=0.4.33"
 ureq = "3.0.5"
