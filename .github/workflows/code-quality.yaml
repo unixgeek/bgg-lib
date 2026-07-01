@@ -15,10 +15,6 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install --no-install-recommends --yes pkg-config libxslt1-dev libxml2-dev
-      - name: Set Up Rust Toolchain
-        run: |
-          rustup toolchain install --profile minimal --component clippy,rustfmt -- 1.91.0
-          rustup default 1.91.0
       - name: Set Up Rust Cache
         uses: Swatinem/rust-cache@v2.9.1
       - name: Run All Checks
