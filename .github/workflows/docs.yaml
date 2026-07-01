@@ -24,7 +24,7 @@ jobs:
           cargo doc --no-deps
           echo "<meta http-equiv=\"refresh\" content=\"0; url=bgg_lib\">" > target/doc/index.html
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v4.0.0
+        uses: actions/upload-pages-artifact@v5.0.0
         with:
           path: target/doc
   deploy:
