@@ -1,18 +1,18 @@
 [package]
 name = "bgg-lib"
-version = "0.4.2"
+version = "0.4.3"
 edition = "2024"
 license = "MIT"
 repository = "https://github.com/unixgeek/bgg-lib"
 
 [dependencies]
-libxslt = "=0.1.4"
-libxml = "=0.3.14"
-log = "=0.4.33"
+libxslt = "0.1.5"
+libxml = "0.3.21"
+log = "0.4.34"
 ureq = "3.0.5"
-serde = { version = "1.0.217", features = ["derive"] }
+serde = { version = "1.0.229", features = ["derive"] }
 serde-xml-rs = "=0.8.2"
-thiserror = "2.0.11"
+thiserror = "2.0.20"
 
 [features]
 default = []
